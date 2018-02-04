@@ -1,11 +1,7 @@
 import { Component, OnInit, DoCheck, AfterViewInit, OnChanges, SimpleChange, Input } from '@angular/core';
 import { Event } from './events.model';
 import { EventsService } from './events.service';
-import { Subject } from 'rxjs/Subject';
-import { Body } from '@angular/http/src/body';
-import { element } from 'protractor';
 import { ClrDatagridStateInterface, ClrDatagrid } from '@clr/angular';
-import { Output } from '@angular/core/src/metadata/directives';
 import { EventComponent } from './event.componet';
 import { HttpClient } from '@angular/common/http/src/client';
 

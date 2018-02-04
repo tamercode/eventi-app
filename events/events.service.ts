@@ -1,20 +1,7 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core/src/metadata/directives';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map';
-import { TagContentType, Text } from '@angular/compiler';
-import { Type } from '@angular/core/src/type';
-import { Body } from '@angular/http/src/body';
-import { Jsonp } from '@angular/http/src/http';
-import { Event } from '../events/events.model'
-import { ClrDatagridStateInterface } from '@clr/angular';
-import { Response } from '_debugger';
-import { HttpObserve } from '@angular/common/http/src/client';
-import { ResponseContentType } from '@angular/http/src/enums';
-import { HttpRequest } from '@angular/common/http/src/request';
-import { HttpHandler } from '@angular/common/http/src/backend';
+import { Event } from '../events/events.model';
 
 
 
