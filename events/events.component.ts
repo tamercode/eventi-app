@@ -21,12 +21,15 @@ export class EventsComponent {
 
     eventsList: Event[];
     selected: Event[] = [];
+    copySelectedEvent: Event;
     loading = true;
     total: number;
     state: ClrDatagridStateInterface;
+    formVisible: boolean;
+    createFLag: boolean;
 
 
-    constructor(private service: EventsService) { }
+    constructor(private service: EventsService) {}
 
 
     refresh(state: ClrDatagridStateInterface) {
@@ -43,19 +46,46 @@ export class EventsComponent {
         .sort(<{ by: string, reverse: boolean }>state.sort)
         .fetch(state.page.from, state.page.size)
         .sendRequest().subscribe(arg => {this.eventsList = arg.body; this.total = parseInt(arg.headers.get('X-Total-Count'), 10); });
+
+        this.selected.splice(0, this.selected.length);
     }
 
-    onDelete() {
+    delete() {
 
         this.service.deleteEvents(this.selected).subscribe(() => {
             this.selected.splice(0, 1);
             if (this.selected.length > 0) {
-                this.onDelete();
+                this.delete();
             }else {
                 this.refresh(this.state);
               } });
 
     }
+
+    edit() {
+        this.createFLag = false;
+        this.copySelectedEvent = this.selected[0];
+        this.showForm();
+    }
+
+    create() {
+        const event = new Event;
+        this.copySelectedEvent = event;
+        this.createFLag = true;
+        this.showForm();
+    }
+
+    save() {
+
+        if ( this.createFLag ) {
+            console.log(this.copySelectedEvent); 
+            this.service.createEvent(this.copySelectedEvent).subscribe(arg => {this.refresh(this.state); this.hideForm(); } ) ;
+        } else { this.service.updateEvent(this.selected[0]).subscribe(arg => {this.refresh(this.state);
+                                                                              this.hideForm(); this.selected.splice(0, 1); } ) ; }
+    }
+
+    showForm() { this.formVisible = true; }
+    hideForm() { this.formVisible = false; }
 
 }
 

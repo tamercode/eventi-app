@@ -62,4 +62,20 @@ export class EventsService {
 
     return this.http.delete(apiUrl + selectedEvents[0].id);
   }
+
+  /* switchRequest(event: Event) {
+    const objPassed = Object.assign({}, event);
+
+    if ( objPassed === <Event>{} ) { return this.createEvent(event); } else { return this.updateEvent(event); }
+  } */
+
+  updateEvent(event: Event) {
+    const apiUrl = 'http://localhost:3000/events/' + event.id;
+    return this.http.put(apiUrl, JSON.stringify(event), httpOptions);
+  }
+
+  createEvent(event: Event) {
+    const apiUrl = 'http://localhost:3000/events/';
+    return this.http.post(apiUrl, JSON.stringify(event), httpOptions);
+  }
 }

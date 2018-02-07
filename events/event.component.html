@@ -1,57 +1,52 @@
-<form novalidate>
-
-    <h2>Event - {{ event?.name }}</h2>
-
-    <div class="form-row" tabindex="1">
-        <div class="form-group col-md-6">
-            <label for="name">Name:</label>
-            <input id="name" #name1="ngModel" name="name" required="" [(ngModel)]=event.name
-                type="text" class="form-control" placeholder="Enter name">
-            <div [hidden]="name1.valid || name1.pristine" class="alert alert-danger">Name is required</div>
-        </div>
-        <div class="form-group col-md-6">
-            <label for="id">ID:</label>
-            <input id="id" #id1="ngModel" name="id" required="" [(ngModel)]=event.id type="text"
-                class="form-control" placeholder="Enter ID" style="width:200px">
-            <div [hidden]="id1.valid || id1.pristine" class="alert alert-danger">ID is required</div>
-        </div>
-        <div class="form-group col-md-6">
-            <label for="description">Description:</label>
-            <textarea rows="4" cols="50" id="description" #description1="ngModel" name="description"
-                required="" [(ngModel)]=event.description type="textarea" class="form-control"
-                placeholder="Enter description"></textarea>
-            <div [hidden]="description1.valid || description1.pristine" class="alert alert-danger">Description is required</div>
-            <div>
-                <label for="location">Location:</label>
-                <input id="location" #location1="ngModel" name="location" required="" [(ngModel)]=event.location
-                    type="text" class="form-control" placeholder="Enter Location">
-                <div [hidden]="location1.valid || location1.pristine" class="alert alert-danger">Location is required</div>
+<form #myForm="ngForm">
+    <section class="form-block">
+        <label>Edit event</label>
+        <div class="form-group row">
+                <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                        <label for="gForm_1">ID</label>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                     <input class="form-control" type="text" id="gForm_1" required placeholder="Enter ID" size="45" [(ngModel)]=event.id name="gForm_1" #id="ngModel">
+                     <div class="alert alert-danger" *ngIf="id.invalid && (id.dirty || id.touched)">ID is requaired</div>
+                </div>
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="gForm_1">Name</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <input class="form-control" type="text" id="gForm_2" required placeholder="Enter event name here" size="45" [(ngModel)]=event.name name="name" #name="ngModel">
+                <div class="alert alert-danger" *ngIf="name.invalid && (name.dirty || name.touched)">Name is requaired</div>
+            </div>
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="gForm_1">Location</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <input class="form-control" type="text" id="gForm_3"  placeholder="Enter location here" size="45" [(ngModel)]=event.location name="location"> 
             </div>
         </div>
-        <div class="form-group ol-md-6">
+        <div class="form-group row">
 
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="gForm_3">Start date</label>
+            </div>
+            <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
+                <input type="date" id="formFields_11" size="35" [ngModel]="event.startDate | date:'yyyy-MM-dd'" (ngModelChange)="event.startDate = $event" name="startDate">
+            </div>
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="gForm_3">End date</label>
+            </div>
+            <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
+                <input type="date" id="formFields_11" size="35" [ngModel]="event.endDate | date:'yyyy-MM-dd'" (ngModelChange)="event.endDate = $event" name="endDate">
+            </div>
         </div>
-        <div class="form-group col-md-6">
-            <label for="startDate">Start Date:</label>
-            <input id="startDatee" #startDate1="ngModel" name="startDate" required="" [(ngModel)]="event.startDate"
-                type="text" class="form-control" placeholder="Enter Start Date" style="width:200px">
-            <div [hidden]="startDate1.valid || startDate1.pristine" class="alert alert-danger">Start date is required</div>
-
-            <label for="endDate">End Date:</label>
-            <input id="endDate" #endDate1="ngModel" name="endDate" required="" [(ngModel)]="event.endDate"
-                type="text" class="form-control" placeholder="Enter End Date" style="width:200px">
-            <div [hidden]="endDate1.valid || endDate1.pristine" class="alert alert-danger">End Date is required</div>
-            <br>
-
-            <button type="button" class="btn btn-default" (click)="save()">
-				<i class="glyphicon glyphicon-ok"></i>Save
-			</button>
-            <button type="button" class="btn btn-default" (click)="cancel()">
-				<i class="glyphicon glyphicon-remove"></i>Cancel
-			</button>
+        <div class="form-group row">
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="gForm_4">Description</label>
+            </div>
+            <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                <textarea id="gForm_4" rows="5" class="form-control" [(ngModel)]=event.description name="description"></textarea>
+            </div>
         </div>
-
-    </div>
-
-
+        <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid" (click)="onSave()">Save</button>
+        <button  class="btn btn-primary" (click)="onCancel()">Cancel</button>
+    </section>
 </form>

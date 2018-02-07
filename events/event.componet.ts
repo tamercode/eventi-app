@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
 import { Event } from './events.model';
 import { EventsComponent } from './events.component';
 import { element } from 'protractor';
+import { Data } from '@angular/router/src/config';
 
 @Component({
     selector: 'app-event',
@@ -10,32 +11,31 @@ import { element } from 'protractor';
 
 export class EventComponent implements OnInit {
 
-    @Output() onSave = new EventEmitter();
-    @Output() onCancel = new EventEmitter();
+    @Output() Save = new EventEmitter();
+    @Output() Cancel = new EventEmitter();
+
     element: any;
 
-    @Input()
-    event: Event;
 
-
+    @Input() event: Event;
 
     constructor() {}
 
-    ngOnInit() { this.scroll(); }
+    ngOnInit() {/* this.scroll(); */ }
 
-    cancel() {
-        this.onCancel.emit();
+    onCancel() {
+        this.Cancel.emit();
     }
 
-    save() {
-        this.onSave.emit();
+    onSave() {
+        this.Save.emit();
     }
 
-    scroll() {
+    /* scroll() {
         this.element = document.getElementById('id');
         this.element.scrollIntoView();
 
-    }
+    } */
 }
 
 
