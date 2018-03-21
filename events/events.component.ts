@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck, AfterViewInit, OnChanges, SimpleChange, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnChanges, SimpleChange, Input, QueryList, ViewChildren, ElementRef} from '@angular/core';
 import { Event } from './events.model';
 import { EventsService } from './events.service';
 import { ClrDatagridStateInterface, ClrDatagrid } from '@clr/angular';
@@ -17,7 +17,7 @@ import { HttpClient } from '@angular/common/http/src/client';
     providers: [EventsService]
 })
 
-export class EventsComponent {
+export class EventsComponent implements OnChanges {
 
     eventsList: Event[];
     selected: Event[] = [];
@@ -27,10 +27,29 @@ export class EventsComponent {
     state: ClrDatagridStateInterface;
     formVisible: boolean;
     createFLag: boolean;
+    myElem: any;
+    
+    @ViewChildren('ref') ref: QueryList<ElementRef>;
+
+    
 
 
     constructor(private service: EventsService) {}
 
+    /* ngOnChanges () {
+        if(this.formVisible) {
+          this.ref.changes.subscribe(
+            (result) => {
+              console.log(result.first.nativeElement);
+
+            }
+          ); // end subscribe
+        } // end if
+      } // end onChanges */
+
+
+      ngOnChanges () {
+      } // end onChanges
 
     refresh(state: ClrDatagridStateInterface) {
         this.state = state;
@@ -69,6 +88,7 @@ export class EventsComponent {
     }
 
     create() {
+
         const event = new Event;
         this.copySelectedEvent = event;
         this.createFLag = true;

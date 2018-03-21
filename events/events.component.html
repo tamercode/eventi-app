@@ -1,3 +1,4 @@
+<div class="container">
 <clr-datagrid (clrDgRefresh)="refresh($event)" [(clrDgSelected)]="selected">
     <clr-dg-action-bar>
         <div class="btn-group">
@@ -41,4 +42,6 @@
         <clr-dg-pagination #pagination [clrDgTotalItems]="total"></clr-dg-pagination>
     </clr-dg-footer>
 </clr-datagrid>
-<app-event *ngIf="formVisible" [event]="copySelectedEvent" (Cancel)="hideForm()" (Save)="save()"></app-event>
+</div>
+<app-event *ngIf="formVisible" [event]="copySelectedEvent" (Cancel)="hideForm()" (Save)="save()">
+</app-event>

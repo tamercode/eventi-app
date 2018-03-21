@@ -1,0 +1,19 @@
+.icon{
+
+    margin-right: 10px;
+    margin-inline-start: 2px;
+
+}
+
+
+
+.title{
+
+font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+margin: auto;
+text-align: center;
+color: aliceblue;
+/* font-weight: bold; */
+font-size: 42px;
+
+}

@@ -6,7 +6,8 @@ import { Data } from '@angular/router/src/config';
 
 @Component({
     selector: 'app-event',
-    templateUrl: 'event.component.html'
+    templateUrl: 'event.component.html',
+    styleUrls: ['event.component.css']
 })
 
 export class EventComponent implements OnInit {
@@ -21,7 +22,12 @@ export class EventComponent implements OnInit {
 
     constructor() {}
 
-    ngOnInit() {/* this.scroll(); */ }
+    ngOnInit() {
+
+        this.element = document.getElementById('label');
+        this.element.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'start'});
+
+    }
 
     onCancel() {
         this.Cancel.emit();
