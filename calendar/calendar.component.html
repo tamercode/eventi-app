@@ -1,3 +1,22 @@
-<p>
-  calendar works!
-</p>
+<div class="month"> 
+    <ul>
+      <li class="prev"(click)='prevMonth()' ><p  style="cursor: pointer;" id="pulsante">&#10094;</p></li>
+      <li class="next" (click)='nexMonth()' ><p style="cursor: pointer;"  id="pulsante">&#10095;</p></li>
+      <li>{{currentMont}}<br><span style="font-size:18px">{{currentYear}}</span></li>
+    </ul>
+  </div>
+  
+  <ul class="weekdays">
+    <li>Mo</li>
+    <li>Tu</li>
+    <li>We</li>
+    <li>Th</li>
+    <li>Fr</li>
+    <li>Sa</li>
+    <li>Su</li>
+  </ul>
+  
+  
+  <ul class="days"> 
+    <li *ngFor="let day of mese" class='lista'><div class='day'>{{day.date.getDate()}}<div class='events' *ngIf='day.events.length > 0'>{{day.events.length}}</div></div></li>
+  </ul>

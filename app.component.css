@@ -1,0 +1,15 @@
+nav {
+    background: rgb(106, 242, 235);
+    height: 70px;
+}
+a {
+    color: #FFFFFF;
+    vertical-align: -30px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 40px
+}
+div {
+    text-align: left;
+}
+
+#pulsante:hover {color: #FFFFFF ; text-decoration: none;}

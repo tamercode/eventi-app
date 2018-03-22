@@ -26,6 +26,12 @@ export class EventsService {
 
   }
 
+   sendRequestUrl(url: string) {
+
+    return this.http.get<Event[]>(url, { observe: 'response' });
+
+
+  }
 
   filter(filters: { [key: string]: string[] }): EventsService {
 
@@ -62,12 +68,6 @@ export class EventsService {
 
     return this.http.delete(apiUrl + selectedEvents[0].id);
   }
-
-  /* switchRequest(event: Event) {
-    const objPassed = Object.assign({}, event);
-
-    if ( objPassed === <Event>{} ) { return this.createEvent(event); } else { return this.updateEvent(event); }
-  } */
 
   updateEvent(event: Event) {
     const apiUrl = 'http://localhost:3000/events/' + event.id;

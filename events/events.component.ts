@@ -28,28 +28,12 @@ export class EventsComponent implements OnChanges {
     formVisible: boolean;
     createFLag: boolean;
     myElem: any;
-    
-    @ViewChildren('ref') ref: QueryList<ElementRef>;
-
-    
 
 
     constructor(private service: EventsService) {}
 
-    /* ngOnChanges () {
-        if(this.formVisible) {
-          this.ref.changes.subscribe(
-            (result) => {
-              console.log(result.first.nativeElement);
-
-            }
-          ); // end subscribe
-        } // end if
-      } // end onChanges */
-
-
       ngOnChanges () {
-      } // end onChanges
+      }
 
     refresh(state: ClrDatagridStateInterface) {
         this.state = state;
@@ -98,7 +82,7 @@ export class EventsComponent implements OnChanges {
     save() {
 
         if ( this.createFLag ) {
-            console.log(this.copySelectedEvent); 
+            console.log(this.copySelectedEvent);
             this.service.createEvent(this.copySelectedEvent).subscribe(arg => {this.refresh(this.state); this.hideForm(); } ) ;
         } else { this.service.updateEvent(this.selected[0]).subscribe(arg => {this.refresh(this.state);
                                                                               this.hideForm(); this.selected.splice(0, 1); } ) ; }
