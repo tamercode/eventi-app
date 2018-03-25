@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "eventi-app-clarity1"
+    "name": "eventi-app-clarity"
   },
   "apps": [
     {
@@ -19,9 +19,12 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "../node_modules/@clr/icons/clr-icons.min.css",
+        "../node_modules/@clr/ui/clr-ui.min.css"
       ],
-      "scripts": [],
+      "scripts": ["../node_modules/@webcomponents/custom-elements/custom-elements.min.js",
+                  "../node_modules/@clr/icons/clr-icons.min.js"],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
