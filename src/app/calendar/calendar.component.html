@@ -38,7 +38,7 @@
 <clr-modal [(clrModalOpen)]="basic" [clrModalSize]="lg" [clrModalStaticBackdrop]="true" [clrModalClosable]="false">
     <h3 class="modal-title">{{modalTitle}}</h3>
     <div class="modal-body">
-        <div *ngIf="prospettoEventi">
+        <div *ngIf="prospettoEventi" class="prospetto">
             <table class="table">
                 <thead>
                     <tr>
@@ -60,11 +60,12 @@
                             <button type="button" class="btn btn-danger">
                                 <clr-icon shape="trash"></clr-icon>&thinsp;Delete
                             </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
             <button style="float:right; margin-top: 20px" type="button" class="btn btn-primary" (click)="addEventProspettoModal()">
-                <clr-icon shape="plus"></clr-icon>&thinsp;prospetto
+                <clr-icon shape="plus"></clr-icon>&thinsp;add event
             </button>
             <button style="float:right; margin-top: 20px" type="button" class="btn btn-outline" (click)="cancelProspettoModal()">
                 cancel
@@ -119,7 +120,7 @@
                 </div>
                
                 <button  style="float:right; margin-top: 20px" type="button" class="btn btn-primary" >
-                    <clr-icon shape="plus"></clr-icon>&thinsp;save
+                    <clr-icon shape="floppy"></clr-icon>&thinsp;save
                 </button>
                 <button  style="float:right; margin-top: 20px" type="button" class="btn btn-outline" (click)="hideEditModal()">
                     cancel

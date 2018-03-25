@@ -143,7 +143,10 @@ body {font-family: Verdana, sans-serif;}
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
-    width: 100%;
+    overflow:auto;
+    display: block;
+
+    
 }
 
 td, th {
@@ -151,4 +154,22 @@ td, th {
     padding: 8px;
 }
 
-.container { width: 98%; }
+td {width: 10%; }
+
+th {display: inline-block; width: 202px;}
+
+tbody {  
+  display:block;
+  overflow:auto;
+  height:300px;
+  width:100%;
+    
+}
+
+thead {display: block;}
+
+
+
+.container { 
+    
+    width: 98%; }
