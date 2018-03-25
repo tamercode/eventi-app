@@ -35,8 +35,8 @@
     </ul>
 </div>
 
-<clr-modal [(clrModalOpen)]="basic" [clrModalSize]="lg">
-    <h3 class="modal-title">I have a nice title</h3>
+<clr-modal [(clrModalOpen)]="basic" [clrModalSize]="lg" [clrModalStaticBackdrop]="true" [clrModalClosable]="false">
+    <h3 class="modal-title">{{modalTitle}}</h3>
     <div class="modal-body">
         <div *ngIf="prospettoEventi">
             <table class="table">
@@ -64,7 +64,7 @@
                 </tbody>
             </table>
             <button style="float:right; margin-top: 20px" type="button" class="btn btn-primary" (click)="addEventProspettoModal()">
-                <clr-icon shape="plus"></clr-icon>&thinsp;add event
+                <clr-icon shape="plus"></clr-icon>&thinsp;prospetto
             </button>
             <button style="float:right; margin-top: 20px" type="button" class="btn btn-outline" (click)="cancelProspettoModal()">
                 cancel
@@ -74,78 +74,51 @@
 
         <form #myForm="ngForm" *ngIf="edit">
             <section class="form-block">
-                <label>Form Inside a Grid</label>
+                <label>Evento</label>
                 <div class="form-group row">
                     <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-                        <label for="gForm_1">Input field</label>
+                        <label for="gForm_1">Data inizio</label>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <input class="form-control" type="date" [ngModel]="eventSelected.startDate" id="gForm_1" size="45" name="startDate">
                     </div>
+                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                            <label for="gForm_1">Data fine</label>
+                        </div>
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <input class="form-control" type="password" id="gForm_2" placeholder="Enter another value here" size="35">
+                            <input class="form-control" type="date" [ngModel]="eventSelected.endDate" id="gForm_1" size="45" name="endDate">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-                        <label for="gForm_3">Select box</label>
+                        <label for="gForm_3">Id</label>
                     </div>
                     <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
-                        <div class="select form-control">
-                            <select id="gForm_3">
-                                <option>Option 1</option>
-                                <option>Option 2</option>
-                                <option>Option 3</option>
-                                <option>Option 4</option>
-                            </select>
-                        </div>
+                            <input class="form-control" type="text" [ngModel]="eventSelected.id" id="gForm_1" size="45" name="id">
                     </div>
+                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                            <label for="gForm_3">Name</label>
+                        </div>
+                        <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
+                                <input class="form-control" type="text" [ngModel]="eventSelected.name" id="gForm_1" size="45" name="name">
+                        </div>
+                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                            <label for="gForm_3">Location</label>
+                        </div>
+                        <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
+                                <input class="form-control" type="text" [ngModel]="eventSelected.location" id="gForm_1" size="45" name="location">
+                        </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-                        <label for="gForm_4">Text area</label>
+                        <label for="gForm_4">Description</label>
                     </div>
                     <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
-                        <textarea id="gForm_4" rows="5" class="form-control"></textarea>
+                        <textarea id="gForm_4" rows="5" class="form-control" [ngModel]="eventSelected.description" name="description"></textarea>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-                        <label>Another select box</label>
-                    </div>
-                    <div class="col-lg-4 col-md-5 col-sm-12 col-xs-12">
-                        <div class="select form-control">
-                            <select id="exampleSelect1">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-5 col-sm-12 col-xs-12">
-                        <span>Sockets: 1</span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-                        <label for="gForm_3">Other form fields</label>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
-                        <div class="toggle-switch">
-                            <input type="checkbox" id="othertoggle">
-                            <label for="othertoggle">Toggle</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                        <div class="checkbox-inline">
-                            <input type="checkbox" id="othercheckbox" checked>
-                            <label for="othercheckbox">Inline Checkbox</label>
-                        </div>
-                    </div>
-                </div>
-                <button  style="float:right; margin-top: 20px" type="button" class="btn btn-primary" (click)="addEventProspettoModal()">
+               
+                <button  style="float:right; margin-top: 20px" type="button" class="btn btn-primary" >
                     <clr-icon shape="plus"></clr-icon>&thinsp;save
                 </button>
                 <button  style="float:right; margin-top: 20px" type="button" class="btn btn-outline" (click)="hideEditModal()">

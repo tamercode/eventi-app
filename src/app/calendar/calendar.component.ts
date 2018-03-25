@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Renderer2, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 import { EventsService } from '../events/events.service';
 import { Day } from './day.model';
 import { addZero, formatDateToStr, literalDate } from '../utils';
@@ -28,7 +28,9 @@ export class CalendarComponent implements OnInit {
   eventSelectedDateToStr: string;
   lg = 'lg';
   eventSelected: Event;
-  flagProspettoModal = false;
+  flagAddButtonModal = false;
+  flagDayEmptyClick = false;
+  modalTitle: string;
 
   edit = false;
   prospettoEventi = false;
@@ -40,7 +42,7 @@ export class CalendarComponent implements OnInit {
   arrayAssoc = new Array();
 
 
-  constructor(private service: EventsService, private renderer: Renderer2, private el: ElementRef) { }
+  constructor(private service: EventsService) { }
 
   ngOnInit() {
     this.currentMont = literalDate(this.date)['month'];
@@ -96,20 +98,44 @@ export class CalendarComponent implements OnInit {
     this.takeEventOfMonth();
 
   }
+
   showEditModal() { this.edit = true; }
 
   showProspettoModal() { this.prospettoEventi = true; }
 
   hideEditModal() {
     this.edit = false;
-    if (!this.flagProspettoModal) { this.daySelected.events.length = 0; }
-    this.flagProspettoModal = false;
+    console.log('num eventi ' + this.flagDayEmptyClick);
+
+    console.log('flag add ' + this.flagAddButtonModal);
+
+
+    if (this.flagDayEmptyClick) { this.daySelected.events.pop(); }
+    if (this.flagAddButtonModal) { this.daySelected.events.pop(); }
+
+    this.flagAddButtonModal = false;
+    this.flagDayEmptyClick = false;
     this.closeModal();
   }
 
-  hidePeospettoModal() { this.prospettoEventi = false; }
-  cancelProspettoModal() {this.hidePeospettoModal(); this.closeModal(); }
-  addEventProspettoModal() {this.hidePeospettoModal(); this.flagProspettoModal = true; this.showEditModal(); }
+  hideProspettoModal() { this.prospettoEventi = false; }
+
+  cancelProspettoModal() {this.hideProspettoModal(); this.closeModal(); }
+
+  addEventProspettoModal() {
+    this.hideProspettoModal();
+    this.flagAddButtonModal = true;
+    this.setFullDay(this.daySelected);
+    this.showEditModal();
+  }
+
+  setFullDay(day: Day) {
+    const event = new Event();
+    event.setStartDate(formatDateToStr(day.date));
+    day.addEvent(event);
+    this.daySelected = day;
+    this.eventSelected = day.events[day.events.length - 1]; console.log('test eventi ' + this.daySelected.events.length); }
+
 
 
   setEmptyDay(day: Day) {
@@ -133,6 +159,7 @@ export class CalendarComponent implements OnInit {
       this.daySelected = day;
       this.showProspettoModal();  // mostra modale con prospetto eventi
     } else {
+      this.flagDayEmptyClick = true;
       this.setEmptyDay(day);
       this.showEditModal();
     }  // mostra modale per la creazione evento
@@ -142,13 +169,15 @@ export class CalendarComponent implements OnInit {
   }
 
   editEvent(event: Event) {
-    this.flagProspettoModal = true;
-    this.prospettoEventi = false;
+    this.hideProspettoModal();
     this.eventSelected = event;
     this.showEditModal();
   }
 
   closeModal() { this.basic = false; }
-  openModal() { this.basic = true; }
+  openModal() {
+    this.basic = true;
+    this.modalTitle = literalDate(this.daySelected.date)['week'] + literalDate(this.daySelected.date)['day'] +
+                      literalDate(this.daySelected.date)['month'] + literalDate(this.daySelected.date)['year']; }
 
 }
