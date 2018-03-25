@@ -35,7 +35,42 @@
     <h3 class="modal-title">I have a nice title</h3>
     <div class="modal-body">
 
-      <div *ngIf="daySelected.events.length">Edita</div>
+        <table class="table" *ngIf="daySelected.events.length">
+            <thead>
+                <tr>
+                    <th>Decimal</th>
+                    <th>Hexadecimal</th>
+                    <th>Binary</th>
+                    <th>Roman Numeral</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>I</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>5</td>
+                    <td>101</td>
+                    <td>V</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>A</td>
+                    <td>1010</td>
+                    <td>X</td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>F</td>
+                    <td>1111</td>
+                    <td>XV</td>
+                </tr>
+            </tbody>
+        </table>
 
         <form #myForm="ngForm" *ngIf="!daySelected.events.length">
             <section class="form-block">
