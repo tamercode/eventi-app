@@ -24,7 +24,7 @@ export class EventComponent implements OnInit {
 
     ngOnInit() {
 
-    this.element = document.getElementById('label');
+        this.element = document.getElementById('label');
         this.element.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'start'});
 
     }

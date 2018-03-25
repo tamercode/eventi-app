@@ -1,11 +1,7 @@
 <nav>
-  <ul>
-    <li class="logo"><img  src="assets/images/calendar.png"/></li>
-    <li class="calendario"><a class="inlinea" routerLink="/calendar" id="pulsante">Calendario</a></li>      
-    <li class="eventi"><a class="inlinea" routerLink="/" id="pulsante">Eventi</a> </li>
-    
-</ul>
-</nav>
-<div>
-<router-outlet></router-outlet>
+<div >
+<a routerLink="/" id="pulsante">Eventi</a> 
+<a routerLink="/calendar" id="pulsante">Calendario</a>
 </div>
+</nav>
+<router-outlet></router-outlet>

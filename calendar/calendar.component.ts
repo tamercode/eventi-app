@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Renderer2, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { EventsService } from '../events/events.service';
 import { Day } from './day.model';
 import { addZero, formatDateToStr, literalDate } from '../utils';
@@ -14,19 +14,11 @@ import { addZero, formatDateToStr, literalDate } from '../utils';
 })
 export class CalendarComponent implements OnInit {
 
-  @ViewChild('primo', {read: ElementRef}) tref: ElementRef;
-
   date = new Date(); // data corrente
   dateStart: Date;   // data inizio mese
   eventList: any;
   currentMont: string; // mese corrente in lettere
   currentYear: string;
-  basic = false;
-  daySelected: Day;
-  daySelectedDateToStr: string;
-
-  inserisci = true;
-  edita = false;
 
   mese: Day[] = [];
   daysOfM = parseInt(new Date(this.date.getFullYear(), this.date.getMonth() + 1 , 0).getDate().toString(), 0);
@@ -35,7 +27,7 @@ export class CalendarComponent implements OnInit {
   arrayAssoc = new Array();
 
 
-  constructor(private service: EventsService, private renderer: Renderer2, private el: ElementRef ) { }
+  constructor(private service: EventsService) { }
 
   ngOnInit() {
     this.currentMont = literalDate(this.date)['month'];
@@ -79,7 +71,7 @@ export class CalendarComponent implements OnInit {
 
   }
 
-  nextMonth () {
+  nexMonth () {
 
     this.date.setMonth(this.date.getMonth() + 1);
     this.takeEventOfMonth();
@@ -89,38 +81,6 @@ export class CalendarComponent implements OnInit {
     this.date.setMonth(this.date.getMonth() - 1);
     this.takeEventOfMonth();
 
-  }
-
-  test(day) {
-
-    console.log(day);
-    this.daySelected = day;
-    this.daySelectedDateToStr = formatDateToStr(day.date);
-    this.showForm();
-    
-
-  }
-
-  test1 () {
-
-    this.inserisci = !this.inserisci;
-    this.edita = !this.edita;
-  }
-
-  hideForm() { this.basic = false; }
-  showForm() { this.basic = true; }
-
-  remove() {
-    const myElement = document.getElementById('nuovo');
-    console.log(myElement);
-    myElement.parentNode.removeChild(myElement);
-
-
-  }
-
-  ciao () {
-
-    alert('Hello! I am an alert box!!');
   }
 
 }

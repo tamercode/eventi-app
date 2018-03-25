@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { ClarityModule } from '@clr/angular';
 import { RouterModule } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -21,7 +20,7 @@ import { CalendarComponent } from './calendar/calendar.component';
     AppComponent, EventsComponent, EventComponent, NavbarComponent, CalendarComponent,
   ],
   imports: [
-    BrowserModule, ClarityModule.forRoot(), FormsModule, BrowserAnimationsModule, HttpClientModule, HttpModule, JsonpModule,
+    BrowserModule, ClarityModule.forRoot(), FormsModule, HttpClientModule, HttpModule, JsonpModule,
     RouterModule.forRoot([
       {
         path: '',
