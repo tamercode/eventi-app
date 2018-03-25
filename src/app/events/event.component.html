@@ -1,0 +1,54 @@
+<div class="container">
+<form #myForm="ngForm">
+    <section class="form-block">
+        <label id="label">Edit event</label>
+        <div class="form-group row">
+                <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                        <label for="gForm_1">ID</label>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                     <input class="form-control" type="text" id="gForm_1" required placeholder="Enter ID" size="45" [(ngModel)]=event.id name="gForm_1" #id="ngModel">
+                     <div class="alert alert-danger" *ngIf="id.invalid && (id.dirty || id.touched)">ID is requaired</div>
+                </div>
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="gForm_1">Name</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <input class="form-control" type="text" id="gForm_2" required placeholder="Enter event name here" size="45" [(ngModel)]=event.name name="name" #name="ngModel">
+                <div class="alert alert-danger" *ngIf="name.invalid && (name.dirty || name.touched)">Name is requaired</div>
+            </div>
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="gForm_1">Location</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <input class="form-control" type="text" id="gForm_3"  placeholder="Enter location here" size="45" [(ngModel)]=event.location name="location"> 
+            </div>
+        </div>
+        <div class="form-group row">
+
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="gForm_3">Start date</label>
+            </div>
+            <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
+                <input type="date" id="formFields_11" size="35" [ngModel]="event.startDate | date:'yyyy-MM-dd'" (ngModelChange)="event.startDate = $event" name="startDate">
+            </div>
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="gForm_3">End date</label>
+            </div>
+            <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
+                <input type="date" id="formFields_11" size="35" [ngModel]="event.endDate | date:'yyyy-MM-dd'" (ngModelChange)="event.endDate = $event" name="endDate">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="gForm_4">Description</label>
+            </div>
+            <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                <textarea id="gForm_4" rows="5" class="form-control" [(ngModel)]=event.description name="description"></textarea>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid" (click)="onSave()">Save</button>
+        <button class="btn btn-primary" (click)="onCancel()">Cancel</button>
+    </section>
+</form>
+</div>
