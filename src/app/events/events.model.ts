@@ -20,4 +20,8 @@ export class Event {
 
     }
 
+    setStartDate (date: string) { this.startDate = date; }
+
+
+
 }

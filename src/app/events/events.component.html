@@ -1,5 +1,5 @@
 <div class="container">
-<clr-datagrid (clrDgRefresh)="refresh($event)" [(clrDgSelected)]="selected">
+<clr-datagrid (clrDgRefresh)="refresh($event)" [(clrDgSelected)]="selected" [clrDgLoading]="loading">
     <clr-dg-action-bar>
         <div class="btn-group">
             <button type="button" class="btn btn-sm btn-secondary" (click)="create()">

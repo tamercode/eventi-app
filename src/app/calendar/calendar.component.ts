@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Renderer2, ElementRef, ViewChild } from '@ang
 import { EventsService } from '../events/events.service';
 import { Day } from './day.model';
 import { addZero, formatDateToStr, literalDate } from '../utils';
+import { Event } from '../events/events.model';
+
 
 
 
@@ -14,7 +16,6 @@ import { addZero, formatDateToStr, literalDate } from '../utils';
 })
 export class CalendarComponent implements OnInit {
 
-  @ViewChild('primo', {read: ElementRef}) tref: ElementRef;
 
   date = new Date(); // data corrente
   dateStart: Date;   // data inizio mese
@@ -24,18 +25,22 @@ export class CalendarComponent implements OnInit {
   basic = false;
   daySelected: Day;
   daySelectedDateToStr: string;
+  eventSelectedDateToStr: string;
+  lg = 'lg';
+  eventSelected: Event;
+  flagProspettoModal = false;
 
-  inserisci = true;
-  edita = false;
+  edit = false;
+  prospettoEventi = false;
 
   mese: Day[] = [];
-  daysOfM = parseInt(new Date(this.date.getFullYear(), this.date.getMonth() + 1 , 0).getDate().toString(), 0);
+  daysOfM = parseInt(new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0).getDate().toString(), 0);
   days = new Array();
   numEve = new Array();
   arrayAssoc = new Array();
 
 
-  constructor(private service: EventsService, private renderer: Renderer2, private el: ElementRef ) { }
+  constructor(private service: EventsService, private renderer: Renderer2, private el: ElementRef) { }
 
   ngOnInit() {
     this.currentMont = literalDate(this.date)['month'];
@@ -46,7 +51,7 @@ export class CalendarComponent implements OnInit {
 
   }
 
-  takeEventOfMonth () {
+  takeEventOfMonth() {
 
     const correntDateStr = formatDateToStr(this.date); // data corrente formattata e convertita in stringa
     const year = correntDateStr.slice(0, 4);
@@ -54,15 +59,16 @@ export class CalendarComponent implements OnInit {
     this.dateStart = new Date(parseInt(year, 10), parseInt(month, 10) - 1, 0); // data di inizio mese
     const url = 'http://localhost:3000/events?startDate_like=' + year + '-' + month;
 
-    this.service.sendRequestUrl(url).subscribe(resp => {this.eventList = resp.body; console.log(this.eventList);
+    this.service.sendRequestUrl(url).subscribe(resp => {
+    this.eventList = resp.body; console.log(this.eventList);
 
       this.currentMont = literalDate(this.date)['month'];
-    this.currentYear = literalDate(this.date)['year'];
-// crea i giorni necessari per riempire il mese
+      this.currentYear = literalDate(this.date)['year'];
+      // crea i giorni necessari per riempire il mese
 
       for (let i = 1; i <= this.daysOfM; i++) {
 
-        const _dateStart = new Date((this.dateStart.getTime() + (1000 * 60 * 60 * 24) * i )); // aggiunge 1 giorno alla data di inizio mese
+        const _dateStart = new Date((this.dateStart.getTime() + (1000 * 60 * 60 * 24) * i)); // aggiunge 1 giorno alla data di inizio mese
         const day = new Day(_dateStart); // crea il giorno con la data incrementata
         this.mese[i - 1] = day; // inserisce il giorno nel mese
       }
@@ -75,52 +81,74 @@ export class CalendarComponent implements OnInit {
           }
         }
       }
-    } );
+    });
 
   }
 
-  nextMonth () {
+  nextMonth() {
 
     this.date.setMonth(this.date.getMonth() + 1);
     this.takeEventOfMonth();
   }
 
-  prevMonth () {
+  prevMonth() {
     this.date.setMonth(this.date.getMonth() - 1);
     this.takeEventOfMonth();
 
   }
+  showEditModal() { this.edit = true; }
 
-  test(day) {
+  showProspettoModal() { this.prospettoEventi = true; }
+
+  hideEditModal() {
+    this.edit = false;
+    if (!this.flagProspettoModal) { this.daySelected.events.length = 0; }
+    this.flagProspettoModal = false;
+    this.closeModal();
+  }
+
+  hidePeospettoModal() { this.prospettoEventi = false; }
+  cancelProspettoModal() {this.hidePeospettoModal(); this.closeModal(); }
+  addEventProspettoModal() {this.hidePeospettoModal(); this.flagProspettoModal = true; this.showEditModal(); }
+
+
+  setEmptyDay(day: Day) {
+
+    if (day.events.length === 0) {
+      const event = new Event();
+      event.setStartDate(formatDateToStr(day.date));
+      console.log('test  ' + event.startDate);
+      day.addEvent(event);
+      this.daySelected = day;
+      this.eventSelected = day.events[0];
+    }
+  }
+
+  selectModal(day: Day) {
 
     console.log(day);
-    this.daySelected = day;
-    this.daySelectedDateToStr = formatDateToStr(day.date);
-    this.showForm();
-    
 
+
+    if (day.events.length > 0) {
+      this.daySelected = day;
+      this.showProspettoModal();  // mostra modale con prospetto eventi
+    } else {
+      this.setEmptyDay(day);
+      this.showEditModal();
+    }  // mostra modale per la creazione evento
+
+
+    this.openModal();
   }
 
-  test1 () {
-
-    this.inserisci = !this.inserisci;
-    this.edita = !this.edita;
+  editEvent(event: Event) {
+    this.flagProspettoModal = true;
+    this.prospettoEventi = false;
+    this.eventSelected = event;
+    this.showEditModal();
   }
 
-  hideForm() { this.basic = false; }
-  showForm() { this.basic = true; }
-
-  remove() {
-    const myElement = document.getElementById('nuovo');
-    console.log(myElement);
-    myElement.parentNode.removeChild(myElement);
-
-
-  }
-
-  ciao () {
-
-    alert('Hello! I am an alert box!!');
-  }
+  closeModal() { this.basic = false; }
+  openModal() { this.basic = true; }
 
 }

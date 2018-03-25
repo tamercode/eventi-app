@@ -107,7 +107,7 @@ body {font-family: Verdana, sans-serif;}
     height:40px;
 }
 
-#test {
+/* #test {
     
     margin-left: 20px;
     margin-right: -10px;
@@ -116,7 +116,7 @@ body {font-family: Verdana, sans-serif;}
  #test li {
 
     margin-right: 0px;
-}
+} */
 
 .container {
 
@@ -147,11 +147,8 @@ table {
 }
 
 td, th {
-    border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
 }
 
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
+.container { width: 98%; }

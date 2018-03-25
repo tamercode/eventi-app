@@ -50,11 +50,11 @@ export class EventsComponent implements OnChanges {
         .fetch(state.page.from, state.page.size)
         .sendRequest().subscribe(arg => {this.eventsList = arg.body; this.total = parseInt(arg.headers.get('X-Total-Count'), 10); });
 
-        this.selected.splice(0, this.selected.length);
+        this.selected.splice(0, this.selected.length); this.loading = false;
     }
 
     delete() {
-
+        this.loading = true;
         this.service.deleteEvents(this.selected).subscribe(() => {
             this.selected.splice(0, 1);
             if (this.selected.length > 0) {
@@ -80,7 +80,7 @@ export class EventsComponent implements OnChanges {
     }
 
     save() {
-
+        this.loading = true;
         if ( this.createFLag ) {
             console.log(this.copySelectedEvent);
             this.service.createEvent(this.copySelectedEvent).subscribe(arg => {this.refresh(this.state); this.hideForm(); } ) ;

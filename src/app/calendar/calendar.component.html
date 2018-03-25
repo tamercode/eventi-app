@@ -1,78 +1,78 @@
 <div class="container">
-<div class="month"> 
-  <ul>
-    <li class="prev"(click)='prevMonth()' style="cursor: pointer;" id="pulsante">&#9668;</li>
-    <li class="next" (click)='nextMonth()' style="cursor: pointer;" id="pulsante">&#9654;</li>
-    <li>{{currentMont}}<br><span style="font-size:18px">{{currentYear}}</span></li>
-  </ul>
-</div>
-
-<ul class="weekdays">
-  <li>Mo</li>
-  <li>Tu</li>
-  <li>We</li>
-  <li>Th</li>
-  <li>Fr</li>
-  <li>Sa</li>
-  <li>Su</li>
-</ul>
-
-
-<ul class="days"> 
-  <div id="test">
-  <li *ngFor="let day of mese" class="solleva" (click)="test(day)">
-    <div class='day'>{{day.date.getDate()}}
-      <div id='events' style="cursor: pointer;" *ngIf='day.events.length > 0'role="tooltip" aria-haspopup="true" class="tooltip tooltip-sm tooltip-bottom-right">{{day.events.length}}
-          <span class="tooltip-content">N &deg; &nbsp; Eventi &nbsp; {{day.events.length}}</span> 
-      </div>
+    <div class="month">
+        <ul>
+            <li class="prev" (click)='prevMonth()' style="cursor: pointer;" id="pulsante">&#9668;</li>
+            <li class="next" (click)='nextMonth()' style="cursor: pointer;" id="pulsante">&#9654;</li>
+            <li>{{currentMont}}
+                <br>
+                <span style="font-size:18px">{{currentYear}}</span>
+            </li>
+        </ul>
     </div>
-  </li>
-</div>
-</ul>
+
+    <ul class="weekdays">
+        <li>Mo</li>
+        <li>Tu</li>
+        <li>We</li>
+        <li>Th</li>
+        <li>Fr</li>
+        <li>Sa</li>
+        <li>Su</li>
+    </ul>
+
+
+    <ul class="days">
+
+        <li *ngFor="let day of mese" class="solleva" (click)="selectModal(day)">
+            <div class='day'>{{day.date.getDate()}}
+                <div id='events' style="cursor: pointer;" *ngIf='day.events.length > 0' role="tooltip" aria-haspopup="true" class="tooltip tooltip-sm tooltip-bottom-right">
+                    {{day.events.length}}
+                    <span class="tooltip-content">N &deg; &nbsp; Eventi &nbsp; {{day.events.length}}</span>
+                </div>
+            </div>
+        </li>
+
+    </ul>
 </div>
 
-<clr-modal [(clrModalOpen)]="basic" *ngIf="basic">
+<clr-modal [(clrModalOpen)]="basic" [clrModalSize]="lg">
     <h3 class="modal-title">I have a nice title</h3>
     <div class="modal-body">
+        <div *ngIf="prospettoEventi">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Evento</th>
+                        <th>Data inizio</th>
+                        <th>Data fine</th>
+                        <th>Modifica</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let event of daySelected.events">
+                        <td>{{event.name}}</td>
+                        <td>{{event.startDate}}</td>
+                        <td>{{event.endDate}}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" (click)="editEvent(event)">
+                                <clr-icon shape="pencil"></clr-icon>&thinsp;Edit
+                            </button>
+                            <button type="button" class="btn btn-danger">
+                                <clr-icon shape="trash"></clr-icon>&thinsp;Delete
+                            </button>
+                    </tr>
+                </tbody>
+            </table>
+            <button style="float:right; margin-top: 20px" type="button" class="btn btn-primary" (click)="addEventProspettoModal()">
+                <clr-icon shape="plus"></clr-icon>&thinsp;add event
+            </button>
+            <button style="float:right; margin-top: 20px" type="button" class="btn btn-outline" (click)="cancelProspettoModal()">
+                cancel
+            </button>
+        </div>
 
-        <table class="table" *ngIf="daySelected.events.length">
-            <thead>
-                <tr>
-                    <th>Decimal</th>
-                    <th>Hexadecimal</th>
-                    <th>Binary</th>
-                    <th>Roman Numeral</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>I</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>5</td>
-                    <td>101</td>
-                    <td>V</td>
-                </tr>
-                <tr>
-                    <td>10</td>
-                    <td>A</td>
-                    <td>1010</td>
-                    <td>X</td>
-                </tr>
-                <tr>
-                    <td>15</td>
-                    <td>F</td>
-                    <td>1111</td>
-                    <td>XV</td>
-                </tr>
-            </tbody>
-        </table>
 
-        <form #myForm="ngForm" *ngIf="!daySelected.events.length">
+        <form #myForm="ngForm" *ngIf="edit">
             <section class="form-block">
                 <label>Form Inside a Grid</label>
                 <div class="form-group row">
@@ -80,7 +80,7 @@
                         <label for="gForm_1">Input field</label>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <input class="form-control" type="date" [ngModel]="daySelectedDateToStr" id="gForm_1" size="45" name="startDate">
+                        <input class="form-control" type="date" [ngModel]="eventSelected.startDate" id="gForm_1" size="45" name="startDate">
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <input class="form-control" type="password" id="gForm_2" placeholder="Enter another value here" size="35">
@@ -145,13 +145,14 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Button</button>
+                <button  style="float:right; margin-top: 20px" type="button" class="btn btn-primary" (click)="addEventProspettoModal()">
+                    <clr-icon shape="plus"></clr-icon>&thinsp;save
+                </button>
+                <button  style="float:right; margin-top: 20px" type="button" class="btn btn-outline" (click)="hideEditModal()">
+                    cancel
+                </button>
             </section>
         </form>
 
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline" (click)="hideForm()">Cancel</button>
-      <button type="button" class="btn btn-primary" (click)="hideForm()">Ok</button>
     </div>
 </clr-modal>
