@@ -1,22 +1,122 @@
+<div class="container">
 <div class="month"> 
-    <ul>
-      <li class="prev"(click)='prevMonth()' ><p  style="cursor: pointer;" id="pulsante">&#10094;</p></li>
-      <li class="next" (click)='nexMonth()' ><p style="cursor: pointer;"  id="pulsante">&#10095;</p></li>
-      <li>{{currentMont}}<br><span style="font-size:18px">{{currentYear}}</span></li>
-    </ul>
-  </div>
-  
-  <ul class="weekdays">
-    <li>Mo</li>
-    <li>Tu</li>
-    <li>We</li>
-    <li>Th</li>
-    <li>Fr</li>
-    <li>Sa</li>
-    <li>Su</li>
+  <ul>
+    <li class="prev"(click)='prevMonth()' style="cursor: pointer;" id="pulsante">&#9668;</li>
+    <li class="next" (click)='nextMonth()' style="cursor: pointer;" id="pulsante">&#9654;</li>
+    <li>{{currentMont}}<br><span style="font-size:18px">{{currentYear}}</span></li>
   </ul>
-  
-  
-  <ul class="days"> 
-    <li *ngFor="let day of mese" class='lista'><div class='day'>{{day.date.getDate()}}<div class='events' *ngIf='day.events.length > 0'>{{day.events.length}}</div></div></li>
-  </ul>
+</div>
+
+<ul class="weekdays">
+  <li>Mo</li>
+  <li>Tu</li>
+  <li>We</li>
+  <li>Th</li>
+  <li>Fr</li>
+  <li>Sa</li>
+  <li>Su</li>
+</ul>
+
+
+<ul class="days"> 
+  <div id="test">
+  <li *ngFor="let day of mese" class="solleva" (click)="test(day)">
+    <div class='day'>{{day.date.getDate()}}
+      <div id='events' style="cursor: pointer;" *ngIf='day.events.length > 0'role="tooltip" aria-haspopup="true" class="tooltip tooltip-sm tooltip-bottom-right">{{day.events.length}}
+          <span class="tooltip-content">N &deg; &nbsp; Eventi &nbsp; {{day.events.length}}</span> 
+      </div>
+    </div>
+  </li>
+</div>
+</ul>
+</div>
+
+<clr-modal [(clrModalOpen)]="basic" *ngIf="basic">
+    <h3 class="modal-title">I have a nice title</h3>
+    <div class="modal-body">
+
+      <div *ngIf="daySelected.events.length">Edita</div>
+
+        <form #myForm="ngForm" *ngIf="!daySelected.events.length">
+            <section class="form-block">
+                <label>Form Inside a Grid</label>
+                <div class="form-group row">
+                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                        <label for="gForm_1">Input field</label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <input class="form-control" type="date" [ngModel]="daySelectedDateToStr" id="gForm_1" size="45" name="startDate">
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <input class="form-control" type="password" id="gForm_2" placeholder="Enter another value here" size="35">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                        <label for="gForm_3">Select box</label>
+                    </div>
+                    <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
+                        <div class="select form-control">
+                            <select id="gForm_3">
+                                <option>Option 1</option>
+                                <option>Option 2</option>
+                                <option>Option 3</option>
+                                <option>Option 4</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                        <label for="gForm_4">Text area</label>
+                    </div>
+                    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                        <textarea id="gForm_4" rows="5" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                        <label>Another select box</label>
+                    </div>
+                    <div class="col-lg-4 col-md-5 col-sm-12 col-xs-12">
+                        <div class="select form-control">
+                            <select id="exampleSelect1">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-5 col-sm-12 col-xs-12">
+                        <span>Sockets: 1</span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                        <label for="gForm_3">Other form fields</label>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="othertoggle">
+                            <label for="othertoggle">Toggle</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="checkbox-inline">
+                            <input type="checkbox" id="othercheckbox" checked>
+                            <label for="othercheckbox">Inline Checkbox</label>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Button</button>
+            </section>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="hideForm()">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="hideForm()">Ok</button>
+    </div>
+</clr-modal>
