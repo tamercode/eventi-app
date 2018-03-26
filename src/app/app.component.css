@@ -29,10 +29,12 @@ img {
 }
 
 nav {
+    display: inline-block;
     background: #002A3B;
     height: 70px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     box-shadow: 0px 2px 3px;
+    width: 100%;
 }
 a {
     display: block;

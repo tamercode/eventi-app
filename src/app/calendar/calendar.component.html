@@ -1,12 +1,11 @@
-<div class="container">
+
+    <div class="container">
     <div class="month">
         <ul>
             <li class="prev" (click)='prevMonth()' style="cursor: pointer;" id="pulsante">&#9668;</li>
             <li class="next" (click)='nextMonth()' style="cursor: pointer;" id="pulsante">&#9654;</li>
             <li>{{currentMont}}
-                <br>
-                <span style="font-size:18px">{{currentYear}}</span>
-            </li>
+                <br> <span style="font-size:18px">{{currentYear}}</span></li>
         </ul>
     </div>
 
@@ -24,18 +23,18 @@
     <ul class="days">
 
         <li *ngFor="let day of mese" class="solleva" (click)="selectModal(day)">
-            <div class='day'>{{day.date.getDate()}}
+            {{day.date.getDate()}}
                 <div id='events' style="cursor: pointer;" *ngIf='day.events.length > 0' role="tooltip" aria-haspopup="true" class="tooltip tooltip-sm tooltip-bottom-right">
                     {{day.events.length}}
                     <span class="tooltip-content">N &deg; &nbsp; Eventi &nbsp; {{day.events.length}}</span>
-                </div>
+                
             </div>
         </li>
 
     </ul>
-</div>
 
-<clr-modal [(clrModalOpen)]="basic" [clrModalSize]="lg" [clrModalStaticBackdrop]="true" [clrModalClosable]="false">
+
+<clr-modal [(clrModalOpen)]="prospettoEventi" [clrModalSize]="lg" [clrModalStaticBackdrop]="true" [clrModalClosable]="false">
     <h3 class="modal-title">{{modalTitle}}</h3>
     <div class="modal-body">
         <div *ngIf="prospettoEventi" class="prospetto">
@@ -43,90 +42,98 @@
                 <thead>
                     <tr>
                         <th>Evento</th>
-                        <th>Data inizio</th>
-                        <th>Data fine</th>
+                        <th class="dataInizio">Data inizio</th>
+                        <th class="dataFine">Data fine</th>
                         <th>Modifica</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let event of daySelected.events">
                         <td>{{event.name}}</td>
-                        <td>{{event.startDate}}</td>
-                        <td>{{event.endDate}}</td>
+                        <td class="dataInizio">{{event.startDate}}</td>
+                        <td class="dataFine">{{event.endDate}}</td>
                         <td>
                             <button type="button" class="btn btn-primary" (click)="editEvent(event)">
                                 <clr-icon shape="pencil"></clr-icon>&thinsp;Edit
                             </button>
-                            <button type="button" class="btn btn-danger">
+                            <button type="button" class="btn btn-danger" (click)="onCancel(event)">
                                 <clr-icon shape="trash"></clr-icon>&thinsp;Delete
                             </button>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <button style="float:right; margin-top: 20px" type="button" class="btn btn-primary" (click)="addEventProspettoModal()">
-                <clr-icon shape="plus"></clr-icon>&thinsp;add event
-            </button>
-            <button style="float:right; margin-top: 20px" type="button" class="btn btn-outline" (click)="cancelProspettoModal()">
-                cancel
-            </button>
         </div>
-
-
-        <form #myForm="ngForm" *ngIf="edit">
-            <section class="form-block">
-                <label>Evento</label>
-                <div class="form-group row">
-                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-                        <label for="gForm_1">Data inizio</label>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <input class="form-control" type="date" [ngModel]="eventSelected.startDate" id="gForm_1" size="45" name="startDate">
-                    </div>
-                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-                            <label for="gForm_1">Data fine</label>
-                        </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            <input class="form-control" type="date" [ngModel]="eventSelected.endDate" id="gForm_1" size="45" name="endDate">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-                        <label for="gForm_3">Id</label>
-                    </div>
-                    <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
-                            <input class="form-control" type="text" [ngModel]="eventSelected.id" id="gForm_1" size="45" name="id">
-                    </div>
-                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-                            <label for="gForm_3">Name</label>
-                        </div>
-                        <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
-                                <input class="form-control" type="text" [ngModel]="eventSelected.name" id="gForm_1" size="45" name="name">
-                        </div>
-                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-                            <label for="gForm_3">Location</label>
-                        </div>
-                        <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
-                                <input class="form-control" type="text" [ngModel]="eventSelected.location" id="gForm_1" size="45" name="location">
-                        </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-                        <label for="gForm_4">Description</label>
-                    </div>
-                    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
-                        <textarea id="gForm_4" rows="5" class="form-control" [ngModel]="eventSelected.description" name="description"></textarea>
-                    </div>
-                </div>
-               
-                <button  style="float:right; margin-top: 20px" type="button" class="btn btn-primary" >
-                    <clr-icon shape="floppy"></clr-icon>&thinsp;save
-                </button>
-                <button  style="float:right; margin-top: 20px" type="button" class="btn btn-outline" (click)="hideEditModal()">
-                    cancel
-                </button>
-            </section>
-        </form>
-
     </div>
+    <div class="modal-footer">
+            <button style="float:right; margin-top: 20px" type="button" class="btn btn-primary" (click)="addEventProspettoModal()">
+                    <clr-icon shape="plus"></clr-icon>&thinsp;add event
+                </button>
+                <button style="float:right; margin-top: 20px" type="button" class="btn btn-outline" (click)="cancelProspettoModal()">
+                    close
+                </button>
+        </div>
 </clr-modal>
+
+<clr-modal [(clrModalOpen)]="edit" [clrModalSize]="lg" [clrModalStaticBackdrop]="true" [clrModalClosable]="false">
+        <h3 class="modal-title">{{modalTitle}}</h3>
+        <div class="modal-body">
+            
+    <form #myForm="ngForm" *ngIf="edit">
+                <section class="form-block">
+                    <label>Evento</label>
+                    <div class="form-group row">
+                        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                            <label for="gForm_1">Data inizio</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <input class="form-control" type="date" [(ngModel)]="eventSelected.startDate" id="gForm_1" size="45" name="startDate">
+                        </div>
+                        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                                <label for="gForm_1">Data fine</label>
+                            </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <input class="form-control" type="date" [(ngModel)]="eventSelected.endDate" id="gForm_1" size="45" name="endDate">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                            <label for="gForm_3">Id</label>
+                        </div>
+                        <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
+                                <input class="form-control" type="text" [(ngModel)]="eventSelected.id" id="gForm_1" size="45" name="id">
+                        </div>
+                        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                                <label for="gForm_3">Name</label>
+                            </div>
+                            <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
+                                    <input class="form-control" type="text" [(ngModel)]="eventSelected.name" id="gForm_1" size="45" name="name">
+                            </div>
+                        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                                <label for="gForm_3">Location</label>
+                            </div>
+                            <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
+                                    <input class="form-control" type="text" [(ngModel)]="eventSelected.location" id="gForm_1" size="45" name="location">
+                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                            <label for="gForm_4">Description</label>
+                        </div>
+                        <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                            <textarea id="gForm_4" rows="5" class="form-control" [ngModel]="eventSelected.description" name="description"></textarea>
+                        </div>
+                    </div>
+                </section>
+            </form>
+        </div>
+        <div class="modal-footer">
+                <button  style="float:right; margin-top: 20px" type="button" class="btn btn-primary" (click)="onSave()">
+                        <clr-icon shape="floppy"></clr-icon>&thinsp;save
+                    </button>
+                    <button  style="float:right; margin-top: 20px" type="button" class="btn btn-outline" (click)="cancelEditModal()">
+                        cancel
+                    </button>
+            </div>
+    </clr-modal>
+</div>

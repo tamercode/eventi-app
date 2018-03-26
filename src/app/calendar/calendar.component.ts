@@ -30,7 +30,10 @@ export class CalendarComponent implements OnInit {
   eventSelected: Event;
   flagAddButtonModal = false;
   flagDayEmptyClick = false;
+  flagEdit  = false;
+  flagDelete = false;
   modalTitle: string;
+  app = new Day(this.date);
 
   edit = false;
   prospettoEventi = false;
@@ -45,6 +48,7 @@ export class CalendarComponent implements OnInit {
   constructor(private service: EventsService) { }
 
   ngOnInit() {
+    this.date.setHours(0, 0, 0, 0);
     this.currentMont = literalDate(this.date)['month'];
     this.currentYear = literalDate(this.date)['year'];
     console.log(this.currentMont);
@@ -76,13 +80,31 @@ export class CalendarComponent implements OnInit {
       }
 
       for (let e = 1; e <= this.mese.length; e++) {
-        for (let a = 1; a <= this.eventList.length; a++) {
+          for (let a = 1; a <= this.eventList.length; a++) {
           const dayDateStr = formatDateToStr(this.mese[e - 1].date);
           if (dayDateStr === this.eventList[a - 1].startDate) {
             this.mese[e - 1].addEvent(this.eventList[a - 1]);
           }
         }
       }
+
+      console.log('app: ' + formatDateToStr(this.app.date));
+
+      for (let e = 1; e <= this.mese.length; e++) {
+
+        console.log('data g del m: ' + formatDateToStr(this.mese[e - 1].date));
+
+        if ( formatDateToStr(this.app.date)  === formatDateToStr(this.mese[e - 1].date) ) {
+          this.daySelected = this.mese[e - 1]; }
+
+      }
+
+      if ( this.flagDelete) {
+      this.prospettoEventi = true;
+      this.flagDelete = false;
+      }
+
+
     });
 
   }
@@ -110,17 +132,21 @@ export class CalendarComponent implements OnInit {
     console.log('flag add ' + this.flagAddButtonModal);
 
 
+
     if (this.flagDayEmptyClick) { this.daySelected.events.pop(); }
     if (this.flagAddButtonModal) { this.daySelected.events.pop(); }
 
+
     this.flagAddButtonModal = false;
     this.flagDayEmptyClick = false;
-    this.closeModal();
+    this.edit = false;
   }
 
   hideProspettoModal() { this.prospettoEventi = false; }
 
-  cancelProspettoModal() {this.hideProspettoModal(); this.closeModal(); }
+
+  cancelProspettoModal() {this.hideProspettoModal(); }
+  cancelEditModal() {this.hideEditModal(); }
 
   addEventProspettoModal() {
     this.hideProspettoModal();
@@ -165,19 +191,53 @@ export class CalendarComponent implements OnInit {
     }  // mostra modale per la creazione evento
 
 
-    this.openModal();
+    this.setTitleModal();
   }
 
   editEvent(event: Event) {
+
+    this.flagEdit = true;
     this.hideProspettoModal();
     this.eventSelected = event;
     this.showEditModal();
   }
 
   closeModal() { this.basic = false; }
-  openModal() {
+
+  setTitleModal() {
     this.basic = true;
     this.modalTitle = literalDate(this.daySelected.date)['week'] + literalDate(this.daySelected.date)['day'] +
                       literalDate(this.daySelected.date)['month'] + literalDate(this.daySelected.date)['year']; }
 
+
+onSave() {
+
+console.log('vedi evento' + this.eventSelected.name + 'flag edit' + this.flagEdit);
+  if (this.flagEdit) {
+    this.service.updateEvent(this.eventSelected).subscribe( resp => { this.takeEventOfMonth();
+                                                            this.flagEdit = false; this.edit = false; } );
+  } else {
+
+    this.service.createEvent(this.eventSelected).subscribe( resp => { this.takeEventOfMonth(); this.edit = false; } );
+
+  }
 }
+
+onCancel(event: Event) {
+  this.flagDelete = true;
+  this.eventSelected = event;
+  const array: Event[] = [];
+  this.app = this.daySelected;
+  array.push(this.eventSelected);
+
+
+  this.service.deleteEvents(array).subscribe(resp => { this.takeEventOfMonth();
+
+        this.prospettoEventi = false;
+
+
+   }) ;
+  }
+
+}
+
